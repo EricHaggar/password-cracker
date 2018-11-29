@@ -3,7 +3,6 @@
 // Lucia Moura, Robert Laganiere
 // This interface is to be used, and not be changed
 
-
 public interface DatabaseInterface {
 	
 	public String save(String plainPassword, String encryptedPassword); 
