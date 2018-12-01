@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
 
 public class Part1Test {
 
@@ -13,9 +14,9 @@ public class Part1Test {
         commonPass.add("brady");
         testCracker.createDatabase(commonPass, database1);
         database1.printStatistics();
-        /* String code = new String("F35D55B3ACF667911A679B44918F5D88B2400823");
+        String code = new String("F35D55B3ACF667911A679B44918F5D88B2400823");
         String discoverPassword = testCracker.crackPassword(code, database1);
-        System.out.println("Decrypt: " + code + " Password: " + discoverPassword + ";"); */
+        System.out.println("Decrypt: " + code + " Password: " + discoverPassword + ";");
 
     }
 
