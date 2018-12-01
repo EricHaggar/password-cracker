@@ -15,7 +15,7 @@ public class DatabaseStandard implements DatabaseInterface {
     }
 
     public String decrypt(String encryptedPassword) {
-        return null; // Change this!!
+        return database.get(encryptedPassword);
     }
 
     public int size() {
