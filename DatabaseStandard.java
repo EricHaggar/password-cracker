@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Collection;
 
 public class DatabaseStandard implements DatabaseInterface {
 
@@ -29,14 +28,6 @@ public class DatabaseStandard implements DatabaseInterface {
         System.out.println("Size is " + size() + " passwords");
         System.out.println("Initial Number of Indexes when Created " + "CHANGE THIS");
         System.out.println("*** End DatabaseStandard Statistics ***");
-    }
-
-    public String toString() {
-        Collection<String> keys = database.values();
-        System.out.println(keys);
-
-        System.out.println(database.keySet());
-        return null;
     }
 
 }

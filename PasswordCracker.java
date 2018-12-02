@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.io.UnsupportedEncodingException;
 
 public class PasswordCracker {
@@ -12,82 +11,65 @@ public class PasswordCracker {
         // responsible to add mutated passwords according to rules 1-5.
 
         for (int i = 0; i < commonPasswords.size(); i++) {
-            String password = commonPasswords.get(i);
-            database.save(password, encryptPassword(password));
+            String originalPassword = commonPasswords.get(i);
+            database.save(originalPassword, encryptPassword(originalPassword));
+
+            StringBuilder modifiedPassword = new StringBuilder(originalPassword);
+            baseCase(modifiedPassword, database);
 
             ArrayList<Integer> indexesOfA = new ArrayList<Integer>();
             ArrayList<Integer> indexesOfE = new ArrayList<Integer>();
             ArrayList<Integer> indexesOfI = new ArrayList<Integer>();
             ArrayList<Integer> mergedIndexesList = new ArrayList<Integer>();
 
-            for (int j = 0; j < password.length(); j++) {
-                if (password.charAt(j) == 'a' || password.charAt(j) == 'A') {
+            for (int j = 0; j < originalPassword.length(); j++) {
+                if (originalPassword.charAt(j) == 'a' || originalPassword.charAt(j) == 'A') {
                     indexesOfA.add(j);
                 }
-                if (password.charAt(j) == 'e' || password.charAt(j) == 'E') {
+                if (originalPassword.charAt(j) == 'e' || originalPassword.charAt(j) == 'E') {
                     indexesOfE.add(j);
                 }
-                if (password.charAt(j) == 'i' || password.charAt(j) == 'I') {
+                if (originalPassword.charAt(j) == 'i' || originalPassword.charAt(j) == 'I') {
                     indexesOfI.add(j);
                 }
 
             }
 
             if (!indexesOfA.isEmpty() && !indexesOfE.isEmpty() && !indexesOfI.isEmpty()) {
-
-                for (int s = 0; s < indexesOfA.size(); s++) {
-                }
-
                 mergedIndexesList.addAll(indexesOfA);
                 mergedIndexesList.addAll(indexesOfE);
                 mergedIndexesList.addAll(indexesOfI);
+                findAllCombinations(indexesOfA, indexesOfE, indexesOfI, mergedIndexesList, database, originalPassword);
 
-                // apply power set rule to find all possible combinations
-                int indexesListSize = mergedIndexesList.size();
-                int numOfCombinations = (int) Math.pow(2d, Double.valueOf(indexesListSize));
-                for (int j = 1; j < numOfCombinations; j++) {
-                    String binaryString = Integer.toBinaryString(numOfCombinations | j).substring(1);
-                    StringBuilder newPassword = new StringBuilder(password);
-                    for (int k = 0; k < indexesListSize; k++) {
+            } else if (!indexesOfA.isEmpty() && !indexesOfE.isEmpty()) {
+                mergedIndexesList.addAll(indexesOfA);
+                mergedIndexesList.addAll(indexesOfE);
+                findAllCombinations(indexesOfA, indexesOfE, indexesOfI, mergedIndexesList, database, originalPassword);
 
-                        if (binaryString.charAt(k) == '1') {
+            } else if (!indexesOfA.isEmpty() && !indexesOfI.isEmpty()) {
+                mergedIndexesList.addAll(indexesOfA);
+                mergedIndexesList.addAll(indexesOfI);
+                findAllCombinations(indexesOfA, indexesOfE, indexesOfI, mergedIndexesList, database, originalPassword);
 
-                            if (indexesOfA.contains(mergedIndexesList.get(k))) {
-                                newPassword.setCharAt(mergedIndexesList.get(k), '@');
+            } else if (!indexesOfE.isEmpty() && !indexesOfI.isEmpty()) {
+                mergedIndexesList.addAll(indexesOfE);
+                mergedIndexesList.addAll(indexesOfI);
+                findAllCombinations(indexesOfA, indexesOfE, indexesOfI, mergedIndexesList, database, originalPassword);
 
-                            } else if (indexesOfE.contains(mergedIndexesList.get(k))) {
+            } else if (!indexesOfA.isEmpty()) {
+                mergedIndexesList.addAll(indexesOfA);
+                findAllCombinations(indexesOfA, indexesOfE, indexesOfI, mergedIndexesList, database, originalPassword);
 
-                                newPassword.setCharAt(mergedIndexesList.get(k), '3');
+            } else if (!indexesOfE.isEmpty()) {
+                mergedIndexesList.addAll(indexesOfE);
+                findAllCombinations(indexesOfA, indexesOfE, indexesOfI, mergedIndexesList, database, originalPassword);
 
-                            } else {
+            } else if (!indexesOfI.isEmpty()) {
+                mergedIndexesList.addAll(indexesOfI);
+                findAllCombinations(indexesOfA, indexesOfE, indexesOfI, mergedIndexesList, database, originalPassword);
+            } else {
 
-                                newPassword.setCharAt(mergedIndexesList.get(k), '1');
-
-                            }
-                        }
-                    }
-
-                    // save password with changed a,e and i
-                    database.save(newPassword.toString(), encryptPassword(newPassword.toString()));
-
-                    if (!Character.isDigit((newPassword.toString()).charAt(0))) {
-
-                        database.save(addYear(newPassword.toString()), encryptPassword(addYear(newPassword.toString())));
-
-                        newPassword = new StringBuilder(upperCaseFirstChar(newPassword.toString()));
-
-                        database.save(upperCaseFirstChar(newPassword.toString()), encryptPassword(upperCaseFirstChar(newPassword.toString())));
-                        
-                        database.save(addYear(newPassword.toString()), encryptPassword(addYear(newPassword.toString())));                     
-
-                    } else {
-
-                        database.save(addYear(newPassword.toString()), encryptPassword(addYear(newPassword.toString())));
-                    }
-
-                }
             }
-
         }
 
     }
@@ -127,4 +109,52 @@ public class PasswordCracker {
         return password + "2018";
     }
 
+    public void baseCase(StringBuilder modifiedPassword, DatabaseInterface database) {
+
+        StringBuilder temp = modifiedPassword;
+
+        modifiedPassword = new StringBuilder(addYear(modifiedPassword.toString()));
+        database.save(modifiedPassword.toString(), encryptPassword(modifiedPassword.toString()));
+
+        if (!Character.isDigit((modifiedPassword.toString()).charAt(0))) {
+
+            modifiedPassword = new StringBuilder(upperCaseFirstChar(modifiedPassword.toString()));
+            database.save(modifiedPassword.toString(), encryptPassword(modifiedPassword.toString()));
+
+            temp = new StringBuilder(upperCaseFirstChar(temp.toString()));
+            database.save(temp.toString(), encryptPassword(temp.toString()));
+        }
+    }
+
+    public void findAllCombinations(ArrayList<Integer> indexesOfA, ArrayList<Integer> indexesOfE,
+            ArrayList<Integer> indexesOfI, ArrayList<Integer> mergedIndexesList, DatabaseInterface database,
+            String password) {
+
+        int indexesListSize = mergedIndexesList.size();
+        int numOfCombinations = (int) Math.pow(2d, Double.valueOf(indexesListSize));
+        for (int j = 1; j < numOfCombinations; j++) {
+            String binaryString = Integer.toBinaryString(numOfCombinations | j).substring(1);
+            StringBuilder modifiedPassword = new StringBuilder(password);
+            for (int k = 0; k < indexesListSize; k++) {
+
+                if (binaryString.charAt(k) == '1') {
+
+                    if (indexesOfA.contains(mergedIndexesList.get(k))) {
+                        modifiedPassword.setCharAt(mergedIndexesList.get(k), '@');
+
+                    } else if (indexesOfE.contains(mergedIndexesList.get(k))) {
+                        modifiedPassword.setCharAt(mergedIndexesList.get(k), '3');
+
+                    } else {
+                        modifiedPassword.setCharAt(mergedIndexesList.get(k), '1');
+
+                    }
+                }
+            }
+
+            database.save(modifiedPassword.toString(), encryptPassword(modifiedPassword.toString()));
+            baseCase(modifiedPassword, database);
+        }
+
+    }
 }
