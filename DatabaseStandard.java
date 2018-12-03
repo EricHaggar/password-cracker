@@ -26,7 +26,7 @@ public class DatabaseStandard implements DatabaseInterface {
     public void printStatistics() {
         System.out.println("*** DatabaseStandard Statistics ***");
         System.out.println("Size is " + size() + " passwords");
-        System.out.println("Initial Number of Indexes when Created " + "CHANGE THIS");
+        System.out.println("Initial Number of Indexes when Created 37");
         System.out.println("*** End DatabaseStandard Statistics ***");
     }
 
