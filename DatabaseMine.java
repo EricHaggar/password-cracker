@@ -1,22 +1,42 @@
+/*
+DatabaseMine stores all the passwords (value) and 
+their respective hash code (key) in my own implementation of a hash map 
+using an inner class (Entry) stored in an array
+*/
 public class DatabaseMine implements DatabaseInterface {
 
+    /*
+    Entry stores the key and value
+    */
     private class Entry {
         private String key;
         private String value;
 
+        /*
+        Constructor to initialize the key and value 
+        */
         public Entry(String key, String value) {
             this.key = key;
             this.value = value;
         }
 
+        /*
+        Returns key
+        */
         public String getKey() {
             return key;
         }
 
+        /*
+        Returns value
+        */
         public String getValue() {
             return value;
         }
 
+        /*
+        Sets value
+        */
         public void setValue(String value) {
             this.value = value;
         }
@@ -32,7 +52,7 @@ public class DatabaseMine implements DatabaseInterface {
     // these constructors must create your hash tables with enough positions N
     // to hold the entries you will insert; you may experiment with primes N
     public DatabaseMine() {
-        N = 209353; // Chosen prime number to obtain reasonable load factor
+        N = 174613; // Chosen prime number to obtain reasonable load factor
         hashTable = new Entry[N];
         size = 0;
         numOfDisplacements = 0;
@@ -53,11 +73,15 @@ public class DatabaseMine implements DatabaseInterface {
 
     }
 
+    /*
+    Stores values in array using algorithms seen in class and returns previousValue
+    */
     public String save(String plainPassword, String encryptedPassword) {
         Entry newEntry = new Entry(encryptedPassword, plainPassword);
         int address = hashFunction(encryptedPassword);
         String previousValue = null;
 
+        // Checks 3 cases 
         if (hashTable[address] == null) {
 
             hashTable[address] = newEntry;
@@ -105,6 +129,10 @@ public class DatabaseMine implements DatabaseInterface {
 
     }
 
+    /* 
+    Returns password if found, otherwise "NO_SUCH_KEY"
+    Uses algorithm seen in class
+    */
     public String decrypt(String encryptedPassword) {
         int address = hashFunction(encryptedPassword);  
         String notFound = "NO_SUCH_KEY";
