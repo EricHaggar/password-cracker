@@ -6,7 +6,7 @@ public class Part1Test {
     public static void main(String[] args) {
 
         PasswordCracker testCracker = new PasswordCracker();
-        DatabaseStandard database1 = new DatabaseStandard();
+        DatabaseMine database1 = new DatabaseMine(37);
         ArrayList<String> commonPass = new ArrayList<String>();
         commonPass.add("123456");
         commonPass.add("password");
