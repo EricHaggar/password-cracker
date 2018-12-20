@@ -21,7 +21,11 @@ Clone the repository with:
 git clone https://github.com/EricHaggar/PasswordCracker.git
 ```
 
-and change your directory to the project
+Change your directory to the project
+
+```
+cd PasswordCracker
+```
 
 ### Prerequisites
 
