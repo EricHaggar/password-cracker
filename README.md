@@ -11,7 +11,7 @@ You can also combine these rules to generate even more password.
 
 **Chosen Algorithm** : I decided to use the Power Set Theorem in order to generate all possible combinations of these 5 rules.
 
-Once all passwords generated and hashed using the SHA-1 algorithm, they are stored in 2 databases. The first is a java.util.HashMap and the second is my own implementation of a hash table. The [leakedAccounts] (https://github.com/EricHaggar/PasswordCracker/blob/master/leakedAccounts.txt) are then searched in the databases to crack the passwords.
+Once all passwords generated and hashed using the SHA-1 algorithm, they are stored in 2 databases. The first is a java.util.HashMap and the second is my own implementation of a hash table. The [leakedAccounts](https://github.com/EricHaggar/PasswordCracker/blob/master/leakedAccounts.txt) are then searched in the databases to crack the passwords.
 
 ## Getting Started 
 
@@ -46,7 +46,7 @@ java Tester
 ## Built With
 
 * [HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)
-* [ArrayList] (https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html)
+* [ArrayList](https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html)
 
 ## More Information
 
