@@ -1,6 +1,6 @@
 # PasswordCracker
 
-PasswordCracker uses **Hash Maps** and **Encryption** to crack passwords.  Given a list of 10 000 common passwords ([commonPwd10K](https://github.com/EricHaggar/PasswordCracker/blob/master/commonPwd10K.txt)), 5 augmentation rules were applied to this list in order to generate as many passwords as possible. Here are the 5 rules: 
+PasswordCracker uses **Hash Maps** and **Encryption** concepts to crack passwords.  Given a list of 10 000 common passwords ([commonPwd10K](https://github.com/EricHaggar/PasswordCracker/blob/master/commonPwd10K.txt)), 5 augmentation rules were applied to this list in order to generate as many passwords as possible. Here are the 5 rules: 
 
 1. Capitalize the first letter of each word starting with a letter, e.g. dragon becomes Dragon
 2. Add the current year to the word, e.g. dragon becomes dragon2018
